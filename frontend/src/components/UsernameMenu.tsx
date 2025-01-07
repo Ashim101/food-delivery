@@ -10,6 +10,7 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { CircleUserRound } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "./ui/button"
+import { Separator } from "@radix-ui/react-separator"
 
 const UsernameMenu = () => {
     const { user, logout } = useAuth0()
@@ -20,14 +21,17 @@ const UsernameMenu = () => {
                     <CircleUserRound className="text-orange-500" />
                     {user?.name}
                 </DropdownMenuTrigger>
-                <DropdownMenuContent>
+                <DropdownMenuContent  >
                     <DropdownMenuLabel>My Account</DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem>
                         <Link to="/user-profile">
                             Profile
                         </Link>
+
                     </DropdownMenuItem>
+                    <DropdownMenuSeparator />
+
                     <DropdownMenuItem>
                         <Button onClick={() => logout()} className="bg-orange-500">
                             Logout
