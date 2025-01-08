@@ -1,6 +1,6 @@
 import landing from "../assets/landing.png"
 import appDownload from "../assets/appDownload.png"
-import { Search, SearchCheck } from "lucide-react"
+import { Search } from "lucide-react"
 import { Button } from "@/components/ui/button"
 const Homepage = () => {
     return (
