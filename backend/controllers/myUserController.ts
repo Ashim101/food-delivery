@@ -60,4 +60,21 @@ const updateUserProfile = async (req: Request, res: Response) => {
 
 }
 
-export { createCurrentUser, updateUserProfile };
+const getUserProfileData = async (req: Request, res: Response) => {
+    try {
+        const userId = req.userId
+        const user = await User.findById(userId)
+        if (!user) {
+            res.status(404).json({ message: "User not found" })
+        }
+        res.send(user)
+
+
+    } catch (error) {
+        res.status(500).json({ message: "Error occured while fetching user data" })
+
+    }
+
+}
+
+export { createCurrentUser, updateUserProfile, getUserProfileData };
