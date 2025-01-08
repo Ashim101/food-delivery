@@ -2,7 +2,9 @@ import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { User } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -20,12 +22,19 @@ type UserFormData = z.infer<typeof formSchema>;
 type Props = {
     onSave: (userProfileData: UserFormData) => void;
     isLoading: Boolean;
+    userProfileData: User
 }
 
-const UserProfileForm = ({ onSave, isLoading }: Props) => {
+const UserProfileForm = ({ userProfileData, onSave, isLoading }: Props) => {
     const form = useForm<UserFormData>({
         resolver: zodResolver(formSchema),
+        defaultValues: userProfileData
     })
+
+    useEffect(() => {
+        form.reset(userProfileData);
+
+    }, [userProfileData, form])
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSave)} className="bg-gray-50 md:p-10 rounded-lg space-y-4">
