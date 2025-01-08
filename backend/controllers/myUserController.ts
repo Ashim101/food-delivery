@@ -3,6 +3,7 @@ import User from "../models/userModel"; // Ensure this path is correct
 
 // Define the controller function
 const createCurrentUser = async (req: Request, res: Response) => {
+    console.log("inside createuser")
     try {
         const { auth0Id } = req.body;
 

@@ -1,4 +1,7 @@
-const API_BASE_URl = import.meta.env.API_BASE_URL
+import { useAuth0 } from "@auth0/auth0-react"
+import { useMutation } from "react-query"
+
+const baseUrl = import.meta.env.VITE_API_BASE_URL
 
 type CreateUserRequest = {
     auth0Id: String,
@@ -6,7 +9,27 @@ type CreateUserRequest = {
 }
 
 export const useCreateMyUser = () => {
-    const createMyUserRequest = async () => {
+    const { getAccessTokenSilently } = useAuth0()
+    const createMyUserRequest = async (user: CreateUserRequest) => {
+        const accesstoken = await getAccessTokenSilently()
+        console.log(accesstoken)
+        const response = await fetch(`${baseUrl}/api/my/user`, {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${accesstoken}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(user),
+
+        });
+        if (!response.ok) {
+            throw new Error("Failed to create user")
+        }
+
+
 
     }
+
+    const { mutateAsync: createUser, isLoading, isError, isSuccess } = useMutation(createMyUserRequest)
+    return { createUser, isLoading, isError, isSuccess }
 }

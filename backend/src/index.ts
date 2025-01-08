@@ -3,6 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import mongoose from "mongoose";
 import userRoutes from "../routes/myUserRoute";
+import { jwtCheck } from "../middlewares/auth";
 
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => { console.log("database connected") })
 
@@ -14,7 +15,7 @@ app.get("/test", async (req: Request, res: Response) => {
     res.json({ msg: "Welcome to the app" })
 });
 
-app.use("/api/my/user", userRoutes)
+app.use("/api/my/user", jwtCheck, userRoutes)
 
 app.listen(7000, () => {
     console.log("listening on the port 7000")
