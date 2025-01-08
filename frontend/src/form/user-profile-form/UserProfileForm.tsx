@@ -1,6 +1,6 @@
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -59,6 +59,7 @@ const UserProfileForm = ({ onSave, isLoading }: Props) => {
                             <FormControl>
                                 <Input {...field} className="bg-white" />
                             </FormControl>
+                            <FormMessage />
 
                         </FormItem>
                     )} />
@@ -75,6 +76,7 @@ const UserProfileForm = ({ onSave, isLoading }: Props) => {
                                 <FormControl>
                                     <Input {...field} className="bg-white" />
                                 </FormControl>
+                                <FormMessage />
 
                             </FormItem>
                         )} />
@@ -88,6 +90,7 @@ const UserProfileForm = ({ onSave, isLoading }: Props) => {
                                 <FormControl>
                                     <Input {...field} className="bg-white" />
                                 </FormControl>
+                                <FormMessage />
 
                             </FormItem>
                         )} />
@@ -102,6 +105,7 @@ const UserProfileForm = ({ onSave, isLoading }: Props) => {
                                 <FormControl>
                                     <Input {...field} className="bg-white" />
                                 </FormControl>
+                                <FormMessage />
 
                             </FormItem>
                         )} />
