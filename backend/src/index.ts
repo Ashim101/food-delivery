@@ -11,6 +11,10 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
+app.get("/health", async (req: Request, res: Response) => {
+    res.send({ message: "Health ok!" })
+})
+
 app.get("/test", async (req: Request, res: Response) => {
     res.json({ msg: "Welcome to the app" })
 });
