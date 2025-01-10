@@ -29,6 +29,12 @@ const UsernameMenu = () => {
                         </Link>
 
                     </DropdownMenuItem>
+                    <DropdownMenuItem>
+                        <Link to="/restraurant">
+                            My Restraurant
+                        </Link>
+
+                    </DropdownMenuItem>
                     <DropdownMenuSeparator />
 
                     <DropdownMenuItem>
