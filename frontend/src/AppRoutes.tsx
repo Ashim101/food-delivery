@@ -2,7 +2,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 import Layout from "./layouts/Layout";
 import Homepage from "./pages/Homepage";
 import AuthCallbackPage from "./pages/AuthCallbackPage";
-import UserProfilepage from "./pages/UserProfilepage";
+import UserProfilepage from "./pages/UserProfilePage";
 import ProtectedRoute from "./auth/ProtectedRoute";
 
 const AppRoutes = () => {
