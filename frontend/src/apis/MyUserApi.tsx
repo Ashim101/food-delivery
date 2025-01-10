@@ -62,7 +62,7 @@ export const useGetMyUser = () => {
 
     }
 
-    const { data: userProfileData, isLoading, isError, isSuccess } = useQuery("fetchUserProfileData", getMyUserRequest)
+    const { data: userProfileData, isLoading, isError, isSuccess, } = useQuery("fetchUserProfileData", getMyUserRequest)
 
     return { userProfileData, isLoading, isError, isSuccess }
 }
