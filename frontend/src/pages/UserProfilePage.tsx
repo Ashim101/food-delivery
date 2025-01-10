@@ -9,7 +9,7 @@ const UserProfilepage = () => {
             <h2>Loading...</h2>
         )
     }
-    if (isError) {
+    if (isError || !userProfileData) {
         return (
             <h2>User not found.</h2>
         )

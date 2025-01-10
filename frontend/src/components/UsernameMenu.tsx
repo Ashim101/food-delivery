@@ -10,7 +10,6 @@ import { useAuth0 } from "@auth0/auth0-react"
 import { CircleUserRound } from "lucide-react"
 import { Link } from "react-router-dom"
 import { Button } from "./ui/button"
-import { Separator } from "@radix-ui/react-separator"
 
 const UsernameMenu = () => {
     const { user, logout } = useAuth0()
