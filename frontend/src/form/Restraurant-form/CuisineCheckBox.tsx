@@ -1,5 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { FormControl, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { ControllerRenderProps, FieldValues } from "react-hook-form";
 
 type Props = {
@@ -11,7 +11,7 @@ const CuisineCheckBox = ({ cuisine, field }: Props) => {
 
     return (
 
-        <FormItem className="flex flex-row items-center space-x-1 mt-2" >
+        <FormItem className="flex flex-row items-end  space-x-1 mt-2" >
             <FormControl>
                 <Checkbox className="bg-white" checked={field.value.includes(cuisine)} onCheckedChange={(checked) => {
                     if (checked) {

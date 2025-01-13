@@ -34,7 +34,7 @@ const formSchema = z.object({
                 invalid_type_error: "Must be a valid number"
             }).min(2, "Menu item price must be a positive number")
         })
-    ).min(2, "At least one menu item is required"),
+    ).min(3, "At least three menu item is required"),
     image: z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "Image must be smaller than 5MB",
     }), // Optional field, adjust as needed
