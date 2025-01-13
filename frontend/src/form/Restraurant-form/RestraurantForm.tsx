@@ -7,6 +7,7 @@ import DetailSection from "./DetailSection";
 import { Form } from "@/components/ui/form";
 import CuisineSection from "./CuisineSection";
 import { Separator } from "@/components/ui/separator";
+import MenuSections from "./MenuSections";
 
 // Define the Zod validation schema for restaurant data
 const formSchema = z.object({
@@ -68,6 +69,8 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
                 <DetailSection />
                 <Separator />
                 <CuisineSection />
+                <Separator />
+                <MenuSections />
 
 
 
