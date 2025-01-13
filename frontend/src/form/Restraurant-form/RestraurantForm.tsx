@@ -43,7 +43,7 @@ const formSchema = z.object({
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
-    onSave: (restaurantData: RestaurantFormData) => void;
+    onSave: (restaurantData: FormData) => void;
     isLoading: Boolean;
 
 }
@@ -60,7 +60,24 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
 
 
     const onSubmit = (formDataJson: RestaurantFormData) => {
-        onSave(formDataJson);
+        const formData = new FormData();
+        formData.append("restraurantName", formDataJson.restraurantName)
+        formData.append("city", formDataJson.city)
+        formData.append("country", formDataJson.country)
+        formData.append("delieveryPrice", formDataJson.delieveryPrice.toString())
+        formData.append("estimatedDelieveryTime", formDataJson.estimatedDelieveryTime.toString())
+
+        formDataJson.cuisines.forEach((cuisine, index) => {
+            formData.append(`cuisines[${index}]`, cuisine)
+        })
+        formDataJson.menuItems.forEach((menuItem, index) => {
+            formData.append(`menuItems[${index}][name]`, menuItem.name)
+            formData.append(`menuItems[${index}][price]`, menuItem.price.toString())
+
+        })
+        formData.append("image", formDataJson.image)
+
+        onSave(formData);
 
 
     }

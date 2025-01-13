@@ -16,7 +16,7 @@ const upload = multer({
     }
 })
 
-myRestraurantRoutes.post("/", upload.single("imageFile"), validateMyRestaurantRequest, jwtCheck, jwtParse, createMyRestraurant)
+myRestraurantRoutes.post("/", upload.single("image"), validateMyRestaurantRequest, jwtCheck, jwtParse, createMyRestraurant)
 
 
 export default myRestraurantRoutes;
