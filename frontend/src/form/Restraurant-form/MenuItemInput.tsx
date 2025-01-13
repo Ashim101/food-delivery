@@ -14,21 +14,24 @@ const MenuItemInput = ({ removeItem, index }: Props) => {
 
     return (
         <div className="flex flex-row gap-2 items-end">
-            <FormField control={control} name={`menuItems${index}.name`} render={({ field }) => (
+            <FormField control={control} name={`menuItems.${index}.name`} render={({ field }) => (
                 <FormItem>
                     <FormLabel>
-                        Name <FormMessage />
+                        Name
                     </FormLabel>
+                    <FormMessage />
                     <Input {...field} placeholder="Cheese Pizza" className="bg-white" />
                 </FormItem>
             )} />
 
 
-            <FormField control={control} name={`menuItems${index}.price`} render={({ field }) => (
+            <FormField control={control} name={`menuItems.${index}.price`} render={({ field }) => (
                 <FormItem>
                     <FormLabel>
-                        Price <FormMessage />
+                        Price
                     </FormLabel>
+                    <FormMessage />
+
                     <Input {...field} placeholder="100" className="bg-white" />
                 </FormItem>
             )} />

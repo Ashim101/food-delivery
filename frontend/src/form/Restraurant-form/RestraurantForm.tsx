@@ -8,14 +8,20 @@ import { Form } from "@/components/ui/form";
 import CuisineSection from "./CuisineSection";
 import { Separator } from "@/components/ui/separator";
 import MenuSections from "./MenuSections";
+import ImageSection from "./ImageSection";
+import LoadingButton from "@/components/LoadingButton";
+import { Button } from "@/components/ui/button";
 
 // Define the Zod validation schema for restaurant data
 const formSchema = z.object({
-    restaurantName: z.string().min(1, "Restaurant Name is required"),
+    restraurantName: z.string().min(1, "Restaurant Name is required"),
     city: z.string().min(1, "City is required"),
     country: z.string().min(1, "Country is required"),
-    deliveryPrice: z.number().min(0, "Delivery price must be a positive number"),
-    estimatedDeliveryTime: z.coerce.number({
+    delieveryPrice: z.coerce.number({
+        required_error: "Delievery Price is required",
+        invalid_type_error: "Must be a valid number"
+    }).min(1, "Delivery price must be a positive number"),
+    estimatedDelieveryTime: z.coerce.number({
         required_error: "Estimated delievery time is required",
         invalid_type_error: "Must be a valid number"
     }),
@@ -23,9 +29,12 @@ const formSchema = z.object({
     menuItems: z.array(
         z.object({
             name: z.string().min(1, "Menu item name is required"),
-            price: z.coerce.number().min(0, "Menu item price must be a positive number")
+            price: z.coerce.number({
+                required_error: "Delievery Price is required",
+                invalid_type_error: "Must be a valid number"
+            }).min(2, "Menu item price must be a positive number")
         })
-    ).min(1, "At least one menu item is required"),
+    ).min(2, "At least one menu item is required"),
     image: z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "Image must be smaller than 5MB",
     }), // Optional field, adjust as needed
@@ -71,6 +80,12 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
                 <CuisineSection />
                 <Separator />
                 <MenuSections />
+                <Separator />
+                <ImageSection />
+
+                {
+                    isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Submit</Button>
+                }
 
 
 
