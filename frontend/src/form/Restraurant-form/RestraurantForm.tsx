@@ -12,7 +12,8 @@ import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
 import { Restraurant } from "@/types";
-import { promises } from "dns";
+
+import { useEffect } from "react";
 
 // Define the Zod validation schema for restaurant data
 const formSchema = z.object({
@@ -37,9 +38,15 @@ const formSchema = z.object({
             }).min(2, "Menu item price must be a positive number")
         })
     ).min(3, "At least three menu item is required"),
+    imageUrl: z.string().optional(),
     image: z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "Image must be smaller than 5MB",
-    }), // Optional field, adjust as needed
+    }).optional(), // Optional field, adjust as needed
+}).refine((data) => {
+    return !!(data.image || data.imageUrl); // Return a boolean
+}, {
+    message: "Either image or imageURL is required",
+    path: ["image"]
 });
 
 type RestaurantFormData = z.infer<typeof formSchema>;
@@ -47,10 +54,13 @@ type RestaurantFormData = z.infer<typeof formSchema>;
 type Props = {
     onSave: (restaurantData: FormData) => Promise<Restraurant>;
     isLoading: Boolean;
+    restraurant?: Restraurant
 
 }
 
-const RestaurantForm = ({ onSave, isLoading }: Props) => {
+const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
+
+
     const form = useForm<RestaurantFormData>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -59,6 +69,15 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
 
         }
     });
+
+
+    useEffect(() => {
+        if (!restraurant) {
+            return
+        }
+        form.reset(restraurant)
+
+    }, [form, restraurant])
 
 
     const onSubmit = (formDataJson: RestaurantFormData) => {
@@ -77,7 +96,11 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
             formData.append(`menuItems[${index}][price]`, menuItem.price.toString())
 
         })
-        formData.append("image", formDataJson.image)
+
+        if (formDataJson.image) {
+            formData.append("image", formDataJson.image)
+
+        }
 
         const result = onSave(formData);
         console.log(result)
@@ -85,9 +108,7 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
 
     }
 
-    if (isLoading) {
-        console.log("Loading")
-    }
+
     // useEffect(() => {
     //     form.reset(restaurantData);
     // }, [restaurantData, form]);

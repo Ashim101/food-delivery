@@ -18,9 +18,11 @@ export type MenuItem = {
 }
 
 export type Restraurant = {
+    _id: string;
     menuItems: MenuItem[];
     cuisines: string[];
-    image: string;
+    imageUrl?: string;
+    image?: File;
     restraurantName: string;
     delieveryPrice: number;
     estimatedDelieveryTime: number;
