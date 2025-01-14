@@ -11,6 +11,8 @@ import MenuSections from "./MenuSections";
 import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
+import { Restraurant } from "@/types";
+import { promises } from "dns";
 
 // Define the Zod validation schema for restaurant data
 const formSchema = z.object({
@@ -43,7 +45,7 @@ const formSchema = z.object({
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
-    onSave: (restaurantData: FormData) => void;
+    onSave: (restaurantData: FormData) => Promise<Restraurant>;
     isLoading: Boolean;
 
 }
@@ -53,7 +55,7 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             cuisines: [],
-            menuItems: [{ name: "", price: 0 }],
+            menuItems: [{ name: "", price: 0 }, { name: "", price: 0 }, { name: "", price: 0 }],
 
         }
     });
@@ -77,7 +79,8 @@ const RestaurantForm = ({ onSave, isLoading }: Props) => {
         })
         formData.append("image", formDataJson.image)
 
-        onSave(formData);
+        const result = onSave(formData);
+        console.log(result)
 
 
     }
