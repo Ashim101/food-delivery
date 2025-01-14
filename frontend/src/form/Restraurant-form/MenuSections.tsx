@@ -18,7 +18,7 @@ const MenuSections = () => {
             </FormDescription>
 
 
-            <FormField control={control} name="menuItems" render={({ field }) => (
+            <FormField control={control} name="menuItems" render={() => (
                 <FormItem>
                     <div className="flex flex-col gap-2">
                         {
