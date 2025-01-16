@@ -16,7 +16,7 @@ import { Button } from "./ui/button";
 
 type Props = {
   placeholder:string,
-  onSubmit:()=>void,
+  onSubmit:(searchQuery:searchQuery)=>void,
   onReset?:()=>void
 }
 

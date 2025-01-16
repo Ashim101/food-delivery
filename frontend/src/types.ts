@@ -29,3 +29,13 @@ export type Restraurant = {
     city: string;
     country: string;
 }
+
+
+export type RestraurantSearchResponse={
+    data:Restraurant[]
+    pagination:{
+        total:number;
+        pages:number;
+        page:number;
+    };
+};
