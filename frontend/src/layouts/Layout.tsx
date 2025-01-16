@@ -19,7 +19,7 @@ const Layout = ({ children, showHero }: Props) => {
             }
 
             <div className=" container mx-auto py-10">{children}</div>
-            <div>
+            <div className="mt-auto">
                 <Footer />
             </div>
         </div>
