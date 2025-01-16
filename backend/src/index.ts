@@ -6,6 +6,7 @@ import userRoutes from "../routes/myUserRoute";
 import { jwtCheck } from "../middlewares/auth";
 import { v2 as cloudinary } from 'cloudinary'
 import myRestraurantRoutes from "../routes/myRestraurantRoute";
+import restraurantRoutes from "../routes/RestraurantRoute";
 mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => { console.log("database connected") })
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -27,6 +28,7 @@ app.get("/test", async (req: Request, res: Response) => {
 
 app.use("/api/my/user", jwtCheck, userRoutes)
 app.use("/api/my/restraurant", myRestraurantRoutes)
+app.use("/api/restraurant",restraurantRoutes)
 
 app.listen(7000, () => {
     console.log("listening on the port 7000")
