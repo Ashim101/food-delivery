@@ -10,6 +10,7 @@ export const useSearchRestraurant = (searchState:SearchState,city?:string) => {
         const params=new URLSearchParams()
         params.set("searchQuery",searchState.searchQuery)
         params.set("page",searchState.page.toString())
+        params.set("selectedCuisines",searchState.selectedCuisines.join(","))
         const response = await fetch(`${baseUrl}/api/restraurant/search/${city}?${params}`, {
             method: "get",
         });
