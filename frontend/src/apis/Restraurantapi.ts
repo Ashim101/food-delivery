@@ -1,11 +1,15 @@
+import { SearchState } from "@/pages/SearchPage";
 import { RestraurantSearchResponse } from "@/types";
 import { useQuery } from "react-query";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
 
-export const useSearchRestraurant = (city?:string) => {
+export const useSearchRestraurant = (searchState:SearchState,city?:string) => {
     const getSearchRestraurantRequest = async ():Promise<RestraurantSearchResponse>  => {
-        const response = await fetch(`${baseUrl}/api/restraurant/search/${city}`, {
+
+        const params=new URLSearchParams()
+        params.set("searchQuery",searchState.searchQuery)
+        const response = await fetch(`${baseUrl}/api/restraurant/search/${city}?${params}`, {
             method: "get",
         });
 
@@ -20,7 +24,7 @@ export const useSearchRestraurant = (city?:string) => {
 
     }
 
-    const { data: results, isLoading } = useQuery("fetchRestraurant", getSearchRestraurantRequest,
+    const { data: results, isLoading } = useQuery(["fetchRestraurant",searchState.searchQuery], getSearchRestraurantRequest,
         {enabled:!!city}
     )
 

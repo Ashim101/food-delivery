@@ -1,40 +1,62 @@
-import { useSearchRestraurant } from "@/apis/Restraurantapi"
-import SearchInfo from "@/components/SearchInfo"
-import SearchResultCard from "@/components/SearchResultCard"
-import { useParams } from "react-router-dom"
+import { useSearchRestraurant } from "@/apis/Restraurantapi";
+import SearchBar, { searchQuery } from "@/components/SearchBar";
+import SearchInfo from "@/components/SearchInfo";
+import SearchResultCard from "@/components/SearchResultCard";
+import { useState } from "react";
+import { useParams } from "react-router-dom";
+
+export type SearchState = {
+  searchQuery: string;
+};
 
 const SearchPage = () => {
-    const {city}=useParams()
-    const{results,isLoading}=useSearchRestraurant(city)
-    if(!results?.data ||!city)
-    {
-        return <span>Restraurant not found.</span>
-    }
-    if(isLoading)
-    {
-        return <p>Loadig..</p>
-    }
-    
+  const [searchState, setSearchState] = useState<SearchState>({
+    searchQuery: "",
+  });
+  const { city } = useParams();
+  const { results, isLoading } = useSearchRestraurant(searchState, city);
+  if (isLoading) {
+    return <p>Loading..</p>;
+  }
+  if (!results?.data || !city) {
+    return <span>Restraurant not found.</span>;
+  }
+
+  const setSearchQuery = (searchFormData: searchQuery) => {
+    setSearchState((prev) => ({
+      ...prev,
+      searchQuery: searchFormData.searchQuery,
+    }));
+  };
+
+  const resetSearch = () => {
+    setSearchState((prev) => ({
+      ...prev,
+      searchQuery: "",
+    }));
+  };
+
   return (
     <div className="grid lg:grid-cols-[250px,1fr] gap-5 ">
-        <div id="cuisines-lists">
-            insert your cuisine lists.
+      <div id="cuisines-lists">insert your cuisine lists.</div>
 
-        </div>
+      <div id="main-content" className="flex flex-col gap-5">
+        <SearchBar
+          searchQuery={searchState.searchQuery}
+          placeholder="Search by restraurant name or cuisines"
+          onSubmit={setSearchQuery}
+          onReset={resetSearch}
+          //   searchQuery={searchState.searchQuery}
+        />
 
-        <div id="main-content" className="flex flex-col gap-5">
+        <SearchInfo city={city} total={results.pagination.total} />
 
-            <SearchInfo city={city} total={results.pagination.total} />
-
-            {results.data.map((restraurant)=>(   <SearchResultCard restraurant={restraurant}/>))}
-
-         
-
-
-        </div>
-
+        {results.data.map((restraurant) => (
+          <SearchResultCard restraurant={restraurant} />
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default SearchPage
+export default SearchPage;

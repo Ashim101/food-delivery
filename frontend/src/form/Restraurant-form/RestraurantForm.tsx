@@ -1,4 +1,3 @@
-
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -15,123 +14,136 @@ import { Restraurant } from "@/types";
 import { useEffect } from "react";
 
 // Define the Zod validation schema for restaurant data
-const formSchema = z.object({
+const formSchema = z
+  .object({
     restraurantName: z.string().min(1, "Restaurant Name is required"),
     city: z.string().min(1, "City is required"),
     country: z.string().min(1, "Country is required"),
-    delieveryPrice: z.coerce.number({
+    deliveryPrice: z.coerce
+      .number({
         required_error: "Delievery Price is required",
-        invalid_type_error: "Must be a valid number"
-    }).min(1, "Delivery price must be a positive number"),
-    estimatedDelieveryTime: z.coerce.number({
-        required_error: "Estimated delievery time is required",
-        invalid_type_error: "Must be a valid number"
+        invalid_type_error: "Must be a valid number",
+      })
+      .min(1, "Delivery price must be a positive number"),
+    estimatedDeliveryTime: z.coerce.number({
+      required_error: "Estimated delievery time is required",
+      invalid_type_error: "Must be a valid number",
     }),
     cuisines: z.array(z.string()).min(1, "At least one cuisine is required"),
-    menuItems: z.array(
+    menuItems: z
+      .array(
         z.object({
-            name: z.string().min(1, "Menu item name is required"),
-            price: z.coerce.number({
-                required_error: "Delievery Price is required",
-                invalid_type_error: "Must be a valid number"
-            }).min(2, "Menu item price must be a positive number")
+          name: z.string().min(1, "Menu item name is required"),
+          price: z.coerce
+            .number({
+              required_error: "Delievery Price is required",
+              invalid_type_error: "Must be a valid number",
+            })
+            .min(2, "Menu item price must be a positive number"),
         })
-    ).min(3, "At least three menu item is required"),
+      )
+      .min(3, "At least three menu item is required"),
     imageUrl: z.string().optional(),
-    image: z.instanceof(File).refine((file) => file.size <= 5 * 1024 * 1024, {
+    image: z
+      .instanceof(File)
+      .refine((file) => file.size <= 5 * 1024 * 1024, {
         message: "Image must be smaller than 5MB",
-    }).optional(), // Optional field, adjust as needed
-}).refine((data) => {
-    return !!(data.image || data.imageUrl); // Return a boolean
-}, {
-    message: "Either image or imageURL is required",
-    path: ["image"]
-});
+      })
+      .optional(), // Optional field, adjust as needed
+  })
+  .refine(
+    (data) => {
+      return !!(data.image || data.imageUrl); // Return a boolean
+    },
+    {
+      message: "Either image or imageURL is required",
+      path: ["image"],
+    }
+  );
 
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
-    onSave: (restaurantData: FormData) => Promise<Restraurant>;
-    isLoading: Boolean;
-    restraurant?: Restraurant
-
-}
+  onSave: (restaurantData: FormData) => Promise<Restraurant>;
+  isLoading: Boolean;
+  restraurant?: Restraurant;
+};
 
 const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
+  const form = useForm<RestaurantFormData>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      cuisines: [],
+      menuItems: [
+        { name: "", price: 0 },
+        { name: "", price: 0 },
+        { name: "", price: 0 },
+      ],
+    },
+  });
 
+  useEffect(() => {
+    if (!restraurant) {
+      return;
+    }
+    form.reset(restraurant);
+  }, [form, restraurant]);
 
-    const form = useForm<RestaurantFormData>({
-        resolver: zodResolver(formSchema),
-        defaultValues: {
-            cuisines: [],
-            menuItems: [{ name: "", price: 0 }, { name: "", price: 0 }, { name: "", price: 0 }],
+  const onSubmit = (formDataJson: RestaurantFormData) => {
+    const formData = new FormData();
+    formData.append("restraurantName", formDataJson.restraurantName);
+    formData.append("city", formDataJson.city);
+    formData.append("country", formDataJson.country);
+    formData.append("delieveryPrice", formDataJson.deliveryPrice.toString());
+    formData.append(
+      "estimatedDelieveryTime",
+      formDataJson.estimatedDeliveryTime.toString()
+    );
 
-        }
+    formDataJson.cuisines.forEach((cuisine, index) => {
+      formData.append(`cuisines[${index}]`, cuisine);
+    });
+    formDataJson.menuItems.forEach((menuItem, index) => {
+      formData.append(`menuItems[${index}][name]`, menuItem.name);
+      formData.append(`menuItems[${index}][price]`, menuItem.price.toString());
     });
 
-
-    useEffect(() => {
-        if (!restraurant) {
-            return
-        }
-        form.reset(restraurant)
-
-    }, [form, restraurant])
-
-
-    const onSubmit = (formDataJson: RestaurantFormData) => {
-        const formData = new FormData();
-        formData.append("restraurantName", formDataJson.restraurantName)
-        formData.append("city", formDataJson.city)
-        formData.append("country", formDataJson.country)
-        formData.append("delieveryPrice", formDataJson.delieveryPrice.toString())
-        formData.append("estimatedDelieveryTime", formDataJson.estimatedDelieveryTime.toString())
-
-        formDataJson.cuisines.forEach((cuisine, index) => {
-            formData.append(`cuisines[${index}]`, cuisine)
-        })
-        formDataJson.menuItems.forEach((menuItem, index) => {
-            formData.append(`menuItems[${index}][name]`, menuItem.name)
-            formData.append(`menuItems[${index}][price]`, menuItem.price.toString())
-
-        })
-
-        if (formDataJson.image) {
-            formData.append("image", formDataJson.image)
-
-        }
-
-        const result = onSave(formData);
-        console.log(result)
-
-
+    if (formDataJson.image) {
+      formData.append("image", formDataJson.image);
     }
 
+    const result = onSave(formData);
+    console.log(result);
+  };
 
-    // useEffect(() => {
-    //     form.reset(restaurantData);
-    // }, [restaurantData, form]);
+  // useEffect(() => {
+  //     form.reset(restaurantData);
+  // }, [restaurantData, form]);
 
-    return (
-        <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="bg-gray-50 p-10 rounded-lg space-y-4">
-                <DetailSection />
-                <Separator />
-                <CuisineSection />
-                <Separator />
-                <MenuSections />
-                <Separator />
-                <ImageSection />
+  return (
+    <Form {...form}>
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="bg-gray-50 p-10 rounded-lg space-y-4"
+      >
+        <DetailSection />
+        <Separator />
+        <CuisineSection />
+        <Separator />
+        <MenuSections />
+        <Separator />
+        <ImageSection />
 
-                {
-                    isLoading ? <LoadingButton /> : <Button type="submit" className="bg-orange-500">Submit</Button>
-                }
-
-
-
-            </form>
-        </Form>
-    );
-}
+        {isLoading ? (
+          <LoadingButton />
+        ) : (
+          <Button type="submit" className="bg-orange-500">
+            Submit
+          </Button>
+        )}
+      </form>
+    </Form>
+  );
+};
 
 export default RestaurantForm;

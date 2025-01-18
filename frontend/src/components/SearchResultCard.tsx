@@ -48,11 +48,11 @@ const SearchResultCard = ({ restraurant }: Props) => {
             <div className="space-y-2">
               <div className="flex gap-1">
                 <Clock className="text-green-600" />
-                <p>{restraurant.estimatedDelieveryTime} mins</p>
+                <p>{restraurant.estimatedDeliveryTime} mins</p>
               </div>
               <div className="flex gap-1">
                 <Banknote />
-                <p>{restraurant.delieveryPrice}</p>
+                <p>{restraurant.deliveryPrice}</p>
               </div>
             </div>
           </div>

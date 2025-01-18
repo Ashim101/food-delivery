@@ -24,8 +24,8 @@ export type Restraurant = {
     imageUrl?: string;
     image?: File;
     restraurantName: string;
-    delieveryPrice: number;
-    estimatedDelieveryTime: number;
+    deliveryPrice: number;
+    estimatedDeliveryTime: number;
     city: string;
     country: string;
 }
