@@ -35,7 +35,7 @@ export type RestraurantSearchResponse={
     data:Restraurant[]
     pagination:{
         total:number;
-        pages:number;
+        totalPages:number;
         page:number;
     };
 };
