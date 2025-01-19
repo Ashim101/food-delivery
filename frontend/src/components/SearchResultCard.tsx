@@ -1,13 +1,6 @@
 import { Restraurant } from "@/types";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import {
-  Banknote,
-  Clock,
-  ClockAlert,
-  Dot,
-  Watch,
-  WatchIcon,
-} from "lucide-react";
+import { Banknote, Clock, Dot } from "lucide-react";
 import { Link } from "react-router-dom";
 
 type Props = {
@@ -15,6 +8,7 @@ type Props = {
 };
 
 const SearchResultCard = ({ restraurant }: Props) => {
+  console.log(restraurant);
   return (
     <Link to={`/details/${restraurant._id}`}>
       <div className="grid lg:grid-cols-[2fr,3fr] gap-4 group">
@@ -28,7 +22,7 @@ const SearchResultCard = ({ restraurant }: Props) => {
 
         <div className="flex flex-col  w-full gap-4">
           <p className="text-2xl font-bold group-hover:underline">
-            {restraurant.restraurantName}
+            {restraurant.restaurantName}
           </p>
           <div className="flex flex-col lg:flex-row gap-5 justify-between lg:pr-2 lg:gap-4 ">
             <div className="flex  flex-wrap  gap-2  ">

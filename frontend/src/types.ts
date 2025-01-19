@@ -17,7 +17,7 @@ export type MenuItem = {
     price: number
 }
 
-export type Restraurant = {
+export type Restaurant = {
     _id: string;
     menuItems: MenuItem[];
     cuisines: string[];
@@ -32,7 +32,7 @@ export type Restraurant = {
 
 
 export type RestraurantSearchResponse={
-    data:Restraurant[]
+    data:Restaurant[]
     pagination:{
         total:number;
         totalPages:number;

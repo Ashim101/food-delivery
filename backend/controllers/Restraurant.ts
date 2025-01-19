@@ -11,6 +11,8 @@ const searchRestraurant = async (req: Request, res: Response) => {
         const sortOption = (req.query.sortOption as string) || "lastUpdated";
         const page = parseInt(req.query.page as string) || 1;
 
+        
+
         const query: any = {};
         
         // Search by city (case-insensitive)
@@ -28,7 +30,7 @@ const searchRestraurant = async (req: Request, res: Response) => {
         if (searchQuery) {
             const searchRegex = new RegExp(searchQuery, "i");
             query["$or"] = [
-                { restraurantName: searchRegex },
+                { restaurantName: searchRegex },
                 { cuisines: { $in: [searchRegex] } } // Search in cuisines
             ];
         }
@@ -64,4 +66,23 @@ const searchRestraurant = async (req: Request, res: Response) => {
     }
 };
 
-export { searchRestraurant };
+
+const getRestaurant=async(req:Request,res:Response)=>{
+
+    const restaurantId=req.params.restaurantId
+    console.log("inside get restaurant",restaurantId)
+    try {
+        const restaurant=await Restraurant.findOne({_id:restaurantId})
+        if(!restaurant)
+        {
+            return res.status(404).json({message:"Restaurant not found"})
+        }
+        
+        return res.json(restaurant)
+    } catch (error) {
+        res.status(500).json({message:"Something went wrong"})
+        
+    }
+}
+
+export { searchRestraurant,getRestaurant };
