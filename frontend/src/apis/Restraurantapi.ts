@@ -1,5 +1,5 @@
 import { SearchState } from "@/pages/SearchPage";
-import { Restraurant, RestraurantSearchResponse } from "@/types";
+import { Restaurant, RestraurantSearchResponse } from "@/types";
 import { useQuery } from "react-query";
 
 const baseUrl = import.meta.env.VITE_API_BASE_URL
@@ -36,7 +36,7 @@ export const useSearchRestraurant = (searchState:SearchState,city?:string) => {
 
 
 export const useGetRestraurant = (restaurantId?:string) => {
-    const getRestraurantRequest = async ():Promise<Restraurant>  => {
+    const getRestraurantRequest = async ():Promise<Restaurant>  => {
 
        
         const response = await fetch(`${baseUrl}/api/restraurant/${restaurantId}`, {
