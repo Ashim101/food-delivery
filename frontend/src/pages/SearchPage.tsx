@@ -4,6 +4,7 @@ import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { searchQuery } from "@/components/SearchBar";
 import SearchInfo from "@/components/SearchInfo";
 import SearchResultCard from "@/components/SearchResultCard";
+import SortOptionsDropdown from "@/components/SortOptionsDropdown.tsx";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -11,6 +12,7 @@ export type SearchState = {
   searchQuery: string;
   page: number;
   selectedCuisines: string[];
+  sortOption: string;
 };
 
 const SearchPage = () => {
@@ -18,6 +20,7 @@ const SearchPage = () => {
     searchQuery: "",
     page: 1,
     selectedCuisines: [],
+    sortOption: "bestMatch",
   });
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -61,6 +64,14 @@ const SearchPage = () => {
     }));
   };
 
+  const setSortOption = (sortOption: string) => {
+    setSearchState((prev) => ({
+      ...prev,
+      sortOption,
+      page: 1,
+    }));
+  };
+
   return (
     <div className="grid lg:grid-cols-[250px,1fr] gap-5 ">
       <div id="cuisines-lists">
@@ -80,8 +91,13 @@ const SearchPage = () => {
           onReset={resetSearch}
           //   searchQuery={searchState.searchQuery}
         />
-
-        <SearchInfo city={city} total={results.pagination.total} />
+        <div className="flex justify-between">
+          <SearchInfo city={city} total={results.pagination.total} />
+          <SortOptionsDropdown
+            onChange={setSortOption}
+            sortOption={searchState.sortOption}
+          />
+        </div>
 
         {results.data.map((restraurant) => (
           <SearchResultCard restraurant={restraurant} />
