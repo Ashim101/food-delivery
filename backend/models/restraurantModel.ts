@@ -30,7 +30,7 @@ const restraurantSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    restraurantName: {
+    restaurantName: {
         type: String,
         required: true
     },

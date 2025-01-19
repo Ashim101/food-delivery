@@ -1,7 +1,6 @@
 import {
   Pagination,
   PaginationContent,
-  PaginationEllipsis,
   PaginationItem,
   PaginationLink,
   PaginationNext,
@@ -23,36 +22,39 @@ const PaginationSelector = ({ pages, page, onPageChange }: props) => {
   console.log(pageNumbers);
 
   return (
-    <Pagination>
-      <PaginationContent>
-        {page > 1 && (
-          <PaginationItem>
-            <PaginationPrevious
-              onClick={() => onPageChange(page - 1)}
-              href="#"
-            />
-          </PaginationItem>
-        )}
+    pages > 1 && (
+      <Pagination>
+        <PaginationContent>
+          {page > 1 && (
+            <PaginationItem>
+              <PaginationPrevious
+                onClick={() => onPageChange(page - 1)}
+                href="#"
+              />
+            </PaginationItem>
+          )}
 
-        {pageNumbers.map((number) => (
-          <PaginationItem>
-            <PaginationLink
-              href="#"
-              isActive={page === number}
-              onClick={() => onPageChange(number)}
-            >
-              {number}
-            </PaginationLink>
-          </PaginationItem>
-        ))}
+          {pageNumbers.map((number) => (
+            <PaginationItem key={number}>
+              <PaginationLink
+                href="#"
+                isActive={page === number}
+                onClick={() => onPageChange(number)}
+              >
+                {number}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
 
-        {page !== pageNumbers.length && (
-          <PaginationItem>
-            <PaginationNext onClick={() => onPageChange(page + 1)} href="#" />
-          </PaginationItem>
-        )}
-      </PaginationContent>
-    </Pagination>
+          {page !== pageNumbers.length && (
+            <PaginationItem>
+              <PaginationNext onClick={() => onPageChange(page + 1)} href="#" />
+            </PaginationItem>
+          )}
+        </PaginationContent>
+      </Pagination>
+    )
   );
 };
+
 export default PaginationSelector;

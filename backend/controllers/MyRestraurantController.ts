@@ -72,7 +72,7 @@ const updateMyRestraurant = async (req: Request, res: Response) => {
         }
 
 
-        restraurant.restraurantName = req.body.restraurantName;
+        restraurant.restaurantName = req.body.restraurantName;
         restraurant.city = req.body.city;
         restraurant.country = req.body.country;
         restraurant.cuisines = req.body.cuisines;
