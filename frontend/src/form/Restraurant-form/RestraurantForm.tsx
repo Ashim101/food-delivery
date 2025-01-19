@@ -9,7 +9,7 @@ import MenuSections from "./MenuSections";
 import ImageSection from "./ImageSection";
 import LoadingButton from "@/components/LoadingButton";
 import { Button } from "@/components/ui/button";
-import { Restraurant } from "@/types";
+import { Restaurant } from "@/types";
 
 import { useEffect } from "react";
 
@@ -64,9 +64,9 @@ const formSchema = z
 type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
-  onSave: (restaurantData: FormData) => Promise<Restraurant>;
+  onSave: (restaurantData: FormData) => Promise<Restaurant>;
   isLoading: Boolean;
-  restraurant?: Restraurant;
+  restraurant?: Restaurant;
 };
 
 const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
