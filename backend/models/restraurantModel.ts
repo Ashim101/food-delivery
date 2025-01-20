@@ -1,16 +1,17 @@
-import mongoose, { mongo } from "mongoose";
+import mongoose, { InferSchemaType } from "mongoose";
 
 const menuItemSchema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: true
+    _id: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      default: () => new mongoose.Types.ObjectId(),
     },
-    price: {
-        type: Number,
-        required: true
-    }
+    name: { type: String, required: true },
+    price: { type: Number, required: true },
+  });
+  
+  export type MenuItemType = InferSchemaType<typeof menuItemSchema>;
 
-})
 
 const restraurantSchema = new mongoose.Schema({
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
