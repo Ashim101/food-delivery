@@ -1,4 +1,5 @@
 import { useGetRestraurant } from "@/apis/Restraurantapi";
+import CheckoutButton from "@/components/CheckoutButton";
 import MenuItems from "@/components/MenuItems";
 import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
@@ -16,11 +17,26 @@ export type CartItem = {
 };
 
 const DetailPage = () => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([]);
   const { restaurantId } = useParams();
+
+  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    const storedItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
+    return storedItems ? JSON.parse(storedItems) : [];
+  });
   const { isLoading, restaurant } = useGetRestraurant(restaurantId);
 
-  const removeFromCart = () => {};
+  const removeFromCart = (item: CartItem) => {
+    setCartItems((prev) => {
+      const updatedCartItems = prev.filter(
+        (eachItem) => eachItem._id !== item._id
+      );
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+      return updatedCartItems;
+    });
+  };
   if (isLoading) {
     return <p>Loading</p>;
   }
@@ -51,6 +67,11 @@ const DetailPage = () => {
           },
         ];
       }
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(cartItems)
+      );
 
       return updatedCartItems;
     });
@@ -83,6 +104,7 @@ const DetailPage = () => {
               cartItems={cartItems}
               removeFromCart={removeFromCart}
             />
+            <CheckoutButton />
           </Card>
         </div>
       </div>
