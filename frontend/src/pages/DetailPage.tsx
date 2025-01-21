@@ -1,3 +1,4 @@
+import { useCreateCheckoutSession } from "@/apis/OrderApi";
 import { useGetRestraurant } from "@/apis/Restraurantapi";
 import CheckoutButton from "@/components/CheckoutButton";
 import MenuItems from "@/components/MenuItems";
@@ -25,6 +26,9 @@ const DetailPage = () => {
     return storedItems ? JSON.parse(storedItems) : [];
   });
   const { isLoading, restaurant } = useGetRestraurant(restaurantId);
+
+  const { createCheckoutSession, isLoading: isCheckoutLoading } =
+    useCreateCheckoutSession();
 
   const removeFromCart = (item: CartItem) => {
     setCartItems((prev) => {
@@ -77,9 +81,31 @@ const DetailPage = () => {
       return updatedCartItems;
     });
   };
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log(userFormData);
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurant) {
+      return;
+    }
+
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        menuItemId: cartItem._id,
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString(),
+      })),
+      restaurantId: restaurant._id,
+      deliveryDetails: {
+        name: userFormData.name,
+        addressLine1: userFormData.addressLine1,
+        city: userFormData.city,
+        country: userFormData.country,
+        email: userFormData.email as string,
+      },
+    };
+
+    const data = await createCheckoutSession(checkoutData);
+    window.location.href = data.url;
   };
+
   return (
     <div className="flex flex-col gap-10">
       <AspectRatio ratio={16 / 5}>
