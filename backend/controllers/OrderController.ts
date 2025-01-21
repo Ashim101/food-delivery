@@ -39,6 +39,8 @@ type CheckoutSessionRequest = {
 const createCheckoutSession = async (req: Request, res: Response) => {
     try {
       const checkoutSessionRequest: CheckoutSessionRequest = req.body;
+
+      console.log(req.body)
   
       const restaurant = await Restaurant.findById(
         checkoutSessionRequest.restaurantId
@@ -102,7 +104,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
       const line_item: Stripe.Checkout.SessionCreateParams.LineItem = {
         price_data: {
           currency: "npr",
-          unit_amount: menuItem.price,
+          unit_amount: menuItem.price*100,
           product_data: {
             name: menuItem.name,
           },
@@ -133,7 +135,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
             display_name: "Delivery",
             type: "fixed_amount",
             fixed_amount: {
-              amount: deliveryPrice,
+              amount: deliveryPrice*100,
               currency: "npr",
             },
           },
@@ -170,13 +172,23 @@ const createCheckoutSession = async (req: Request, res: Response) => {
     console.log(event)
     
     if (event.type === "checkout.session.completed" && event.data.object.payment_status==="paid") {
-      const order = await Order.findById(event.data.object.metadata?.orderId);
+      const orderId=event.data.object.metadata?.orderId
+      if (!orderId) {
+        return res.status(400).json({ message: "Order ID is missing in the metadata" });
+      }
   
+      const order = await Order.findById(event.data.object.metadata?.orderId);
+
       if (!order) {
         return res.status(404).json({ message: "Order not found" });
       }
   
-      order.totalAmount = event.data.object.amount_total;
+      const amountTotal = event.data.object.amount_total;
+  
+      if (typeof amountTotal !== 'number' || isNaN(amountTotal)) {
+        return res.status(400).json({ message: "Invalid amount_total received" });
+      }
+      order.totalAmount = amountTotal/100;
       order.status = "paid";
   
       await order.save();
