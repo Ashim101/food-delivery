@@ -5,7 +5,7 @@
   "main": "./src/index.ts",
   "scripts": {
     "dev":  "concurrently \"nodemon\" \"npm run stripe\"",
-
+    "build": "npm install && npx tsc",
     "stripe": "stripe listen --forward-to localhost:7000/api/order/checkout/webhook",
     "start": "node dist/src/index.js"
   },
