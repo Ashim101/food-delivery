@@ -27,8 +27,7 @@ const DetailPage = () => {
   });
   const { isLoading, restaurant } = useGetRestraurant(restaurantId);
 
-  const { createCheckoutSession, isLoading: isCheckoutLoading } =
-    useCreateCheckoutSession();
+  const { createCheckoutSession } = useCreateCheckoutSession();
 
   const removeFromCart = (item: CartItem) => {
     setCartItems((prev) => {
