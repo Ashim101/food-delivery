@@ -8,7 +8,6 @@ type Props = {
 };
 
 const SearchResultCard = ({ restraurant }: Props) => {
-  console.log(restraurant);
   return (
     <Link to={`/details/${restraurant._id}`}>
       <div className="grid lg:grid-cols-[2fr,3fr] gap-4 group">

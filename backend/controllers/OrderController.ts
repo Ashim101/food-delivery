@@ -17,7 +17,6 @@ const getMyOrders = async (req: Request, res: Response) => {
 
     res.json(orders);
   } catch (error) {
-    console.log(error);
     res.status(500).json({ message: "something went wrong" });
   }
 };
@@ -40,7 +39,6 @@ const createCheckoutSession = async (req: Request, res: Response) => {
     try {
       const checkoutSessionRequest: CheckoutSessionRequest = req.body;
 
-      console.log(req.body)
   
       const restaurant = await Restaurant.findById(
         checkoutSessionRequest.restaurantId
@@ -83,7 +81,6 @@ const createCheckoutSession = async (req: Request, res: Response) => {
     //   await newOrder.save();
       res.json({ url: session.url });
     } catch (error: any) {
-      console.log(error);
       res.status(500).json({ message: error.raw.message });
     }
   };
@@ -165,11 +162,10 @@ const createCheckoutSession = async (req: Request, res: Response) => {
         STRIPE_ENDPOINT_SECRET
       );
     } catch (error: any) {
-      console.log(error);
       return res.status(400).send(`Webhook error: ${error.message}`);
     }
   
-    console.log(event)
+    
     
     if (event.type === "checkout.session.completed" && event.data.object.payment_status==="paid") {
       const orderId=event.data.object.metadata?.orderId

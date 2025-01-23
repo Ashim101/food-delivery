@@ -4,7 +4,7 @@ import Restraurant from "../models/restraurantModel";
 const searchRestraurant = async (req: Request, res: Response) => {
     try {
         const city = req.params.city;
-        console.log("city", city);
+        
 
         const searchQuery = (req.query.searchQuery as string) || "";
         const selectedCuisines = (req.query.selectedCuisines as string) || "";
@@ -70,7 +70,7 @@ const searchRestraurant = async (req: Request, res: Response) => {
 const getRestaurant=async(req:Request,res:Response)=>{
 
     const restaurantId=req.params.restaurantId
-    console.log("inside get restaurant",restaurantId)
+    
     try {
         const restaurant=await Restraurant.findOne({_id:restaurantId})
         if(!restaurant)
@@ -84,5 +84,7 @@ const getRestaurant=async(req:Request,res:Response)=>{
         
     }
 }
+
+
 
 export { searchRestraurant,getRestaurant };

@@ -12,7 +12,7 @@ import {
 } from "./ui/select";
 import { ORDER_STATUS } from "@/configs/order-status-config";
 import { useUpdateMyRestaurantOrder } from "@/apis/ManageRestraurantApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 type Props = {
   order: Order;

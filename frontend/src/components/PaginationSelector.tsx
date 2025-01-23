@@ -19,8 +19,6 @@ const PaginationSelector = ({ pages, page, onPageChange }: props) => {
     pageNumbers.push(i);
   }
 
-  console.log(pageNumbers);
-
   return (
     pages > 1 && (
       <Pagination>
