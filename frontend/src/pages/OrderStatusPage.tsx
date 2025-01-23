@@ -15,8 +15,6 @@ const OrderStatusPage = () => {
     return "No orders found";
   }
 
-  console.log(orders);
-
   return (
     <div className="space-y-10">
       {orders.map((order: Order) => (

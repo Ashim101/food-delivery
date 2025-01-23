@@ -1,27 +1,48 @@
-import { useCreateMyRestraurant, useGetMyRestraurant, useUpdateMyRestraurant } from "@/apis/ManageRestraurantApi"
-import RestaurantForm from "@/form/Restraurant-form/RestraurantForm"
-import { toast } from "sonner"
+import {
+  useCreateMyRestaurant,
+  useGetMyRestaurant,
+  useGetMyRestaurantOrders,
+  useUpdateMyRestaurant,
+} from "@/apis/ManageRestraurantApi";
+import OrderItemCard from "@/components/OrderItemCard";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ManageRestaurantForm from "@/form/Restraurant-form/RestraurantForm";
 
-const RestraurantPage = () => {
-    const { createRestraurant, error, isLoading: isCreateLoading, isSuccess: isCreateSuccess } = useCreateMyRestraurant()
+const ManageRestaurantPage = () => {
+  const { createRestraurant, isLoading: isCreateLoading } =
+    useCreateMyRestaurant();
+  const { RestraurantData } = useGetMyRestaurant();
+  const { updateRestraurant, isLoading: isUpdateLoading } =
+    useUpdateMyRestaurant();
 
-    const { isLoading: isUpdateLoading, updateRestraurant } = useUpdateMyRestraurant()
+  const { orders } = useGetMyRestaurantOrders();
 
-    const { RestraurantData, isLoading: isGetLoading, } = useGetMyRestraurant()
-    if (isGetLoading)
-        return <h2>Loading...</h2>
-    if (error) {
-        toast.error("Restraurant update failed")
-    }
-    if (isCreateSuccess) {
-        toast.success("Restraurant updated successfully")
-    }
-    const isEditing = !!RestraurantData
-    console.log(isEditing)
+  const isEditing = !!RestraurantData;
 
-    return (
-        <RestaurantForm restraurant={RestraurantData} isLoading={isUpdateLoading || isCreateLoading} onSave={isEditing ? updateRestraurant : createRestraurant} />
-    )
-}
+  return (
+    <Tabs defaultValue="orders">
+      <TabsList>
+        <TabsTrigger value="orders">Orders</TabsTrigger>
+        <TabsTrigger value="manage-restaurant">Manage Restaurant</TabsTrigger>
+      </TabsList>
+      <TabsContent
+        value="orders"
+        className="space-y-5 bg-gray-50 p-10 rounded-lg"
+      >
+        <h2 className="text-2xl font-bold">{orders?.length} active orders</h2>
+        {orders?.map((order) => (
+          <OrderItemCard order={order} />
+        ))}
+      </TabsContent>
+      <TabsContent value="manage-restaurant">
+        <ManageRestaurantForm
+          restraurant={RestraurantData}
+          onSave={isEditing ? updateRestraurant : createRestraurant}
+          isLoading={isCreateLoading || isUpdateLoading}
+        />
+      </TabsContent>
+    </Tabs>
+  );
+};
 
-export default RestraurantPage
+export default ManageRestaurantPage;
