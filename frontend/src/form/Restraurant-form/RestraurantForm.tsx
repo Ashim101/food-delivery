@@ -21,12 +21,12 @@ const formSchema = z
     country: z.string().min(1, "Country is required"),
     deliveryPrice: z.coerce
       .number({
-        required_error: "Delievery Price is required",
+        required_error: "Delivery Price is required",
         invalid_type_error: "Must be a valid number",
       })
       .min(1, "Delivery price must be a positive number"),
     estimatedDeliveryTime: z.coerce.number({
-      required_error: "Estimated delievery time is required",
+      required_error: "Estimated delivery time is required",
       invalid_type_error: "Must be a valid number",
     }),
     cuisines: z.array(z.string()).min(1, "At least one cuisine is required"),
@@ -36,20 +36,15 @@ const formSchema = z
           name: z.string().min(1, "Menu item name is required"),
           price: z.coerce
             .number({
-              required_error: "Delievery Price is required",
+              required_error: "Delivery Price is required",
               invalid_type_error: "Must be a valid number",
             })
             .min(2, "Menu item price must be a positive number"),
         })
       )
-      .min(3, "At least three menu item is required"),
+      .min(3, "At least three menu items are required"),
     imageUrl: z.string().optional(),
-    image: z
-      .instanceof(File)
-      .refine((file) => file.size <= 5 * 1024 * 1024, {
-        message: "Image must be smaller than 5MB",
-      })
-      .optional(), // Optional field, adjust as needed
+    image: z.instanceof(File).optional(), // Optional field, adjust as needed
   })
   .refine(
     (data) => {
@@ -65,7 +60,7 @@ type RestaurantFormData = z.infer<typeof formSchema>;
 
 type Props = {
   onSave: (restaurantData: FormData) => Promise<Restaurant>;
-  isLoading: Boolean;
+  isLoading: boolean;
   restraurant?: Restaurant;
 };
 
@@ -90,13 +85,14 @@ const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
   }, [form, restraurant]);
 
   const onSubmit = (formDataJson: RestaurantFormData) => {
+    console.log("Form submitted");
     const formData = new FormData();
-    formData.append("restraurantName", formDataJson.restraurantName);
+    formData.append("restaurantName", formDataJson.restraurantName);
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
-    formData.append("delieveryPrice", formDataJson.deliveryPrice.toString());
+    formData.append("deliveryPrice", formDataJson.deliveryPrice.toString());
     formData.append(
-      "estimatedDelieveryTime",
+      "estimatedDeliveryTime",
       formDataJson.estimatedDeliveryTime.toString()
     );
 
@@ -111,14 +107,10 @@ const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
     if (formDataJson.image) {
       formData.append("image", formDataJson.image);
     }
-
+    console.log("FormData object:", formData); // Add this line
     const result = onSave(formData);
     console.log(result);
   };
-
-  // useEffect(() => {
-  //     form.reset(restaurantData);
-  // }, [restaurantData, form]);
 
   return (
     <Form {...form}>

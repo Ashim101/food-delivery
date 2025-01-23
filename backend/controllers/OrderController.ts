@@ -9,18 +9,18 @@ const FRONTEND_URL = process.env.FRONTEND_URL as string;
 
 const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
 
-// const getMyOrders = async (req: Request, res: Response) => {
-//   try {
-//     const orders = await Order.find({ user: req.userId })
-//       .populate("restaurant")
-//       .populate("user");
+const getMyOrders = async (req: Request, res: Response) => {
+  try {
+    const orders = await Order.find({ user: req.userId })
+      .populate("restaurant")
+      .populate("user");
 
-//     res.json(orders);
-//   } catch (error) {
-//     console.log(error);
-//     res.status(500).json({ message: "something went wrong" });
-//   }
-// };
+    res.json(orders);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "something went wrong" });
+  }
+};
 
 type CheckoutSessionRequest = {
   cartItems: {
@@ -199,6 +199,6 @@ const createCheckoutSession = async (req: Request, res: Response) => {
   
   export  {
     createCheckoutSession,
-    stripeWebhookHandler
+    stripeWebhookHandler,getMyOrders
   };
 

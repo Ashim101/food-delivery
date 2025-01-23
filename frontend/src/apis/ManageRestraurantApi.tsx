@@ -9,7 +9,7 @@ export const useGetMyRestraurant = () => {
   const { getAccessTokenSilently } = useAuth0();
   const getMyRestraurantRequest = async (): Promise<Restaurant> => {
     const accesstoken = await getAccessTokenSilently();
-    const response = await fetch(`${baseUrl}/api/my/restraurant`, {
+    const response = await fetch(`${baseUrl}/api/my/restaurant`, {
       method: "get",
       headers: {
         Authorization: `Bearer ${accesstoken}`,
@@ -39,8 +39,9 @@ export const useCreateMyRestraurant = () => {
   const createMyRestraurantRequest = async (
     restraurantFormData: FormData
   ): Promise<Restaurant> => {
+    console.log("creating restaurant");
     const accesstoken = await getAccessTokenSilently();
-    const response = await fetch(`${baseUrl}/api/my/restraurant`, {
+    const response = await fetch(`${baseUrl}/api/my/restaurant`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${accesstoken}`,
@@ -69,7 +70,7 @@ export const useUpdateMyRestraurant = () => {
     restraurantFormData: FormData
   ): Promise<Restaurant> => {
     const accesstoken = await getAccessTokenSilently();
-    const response = await fetch(`${baseUrl}/api/my/restraurant`, {
+    const response = await fetch(`${baseUrl}/api/my/restaurant`, {
       method: "PUT",
       headers: {
         Authorization: `Bearer ${accesstoken}`,

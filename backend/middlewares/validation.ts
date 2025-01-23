@@ -29,7 +29,7 @@ export const validateMyUserRequest = [
 
 export const validateMyRestaurantRequest = [
     // Validate restaurant name
-    body("restraurantName")
+    body("restaurantName")
         .isString().withMessage("Restaurant name must be a string")
         .not().isNumeric().withMessage("Restaurant name cannot be a number"),
 
@@ -44,11 +44,11 @@ export const validateMyRestaurantRequest = [
         .not().isNumeric().withMessage("Country cannot be a number"),
 
     // Validate delivery price (should be a positive number)
-    body("delieveryPrice")
+    body("deliveryPrice")
         .isFloat({ min: 0 }).withMessage("Delivery price must be a positive number"),
 
     // Validate estimated delivery time (should be a positive number)
-    body("estimatedDelieveryTime")
+    body("estimatedDeliveryTime")
         .isInt({ min: 1 }).withMessage("Estimated delivery time must be a positive integer"),
 
 

@@ -33,7 +33,7 @@ app.get("/test", async (req: Request, res: Response) => {
 });
 
 app.use("/api/my/user", jwtCheck, userRoutes)
-app.use("/api/my/restraurant", myRestraurantRoutes)
+app.use("/api/my/restaurant", myRestraurantRoutes)
 app.use("/api/restraurant",restraurantRoutes)
 app.use("/api/order", orderRoutes);
 
