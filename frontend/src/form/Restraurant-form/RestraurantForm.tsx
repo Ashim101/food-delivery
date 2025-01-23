@@ -107,7 +107,7 @@ const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
       formData.append("image", formDataJson.image);
     }
 
-    const result = onSave(formData);
+    onSave(formData);
   };
 
   return (
