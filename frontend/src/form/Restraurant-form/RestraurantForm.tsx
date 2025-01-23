@@ -16,7 +16,7 @@ import { useEffect } from "react";
 // Define the Zod validation schema for restaurant data
 const formSchema = z
   .object({
-    restraurantName: z.string().min(1, "Restaurant Name is required"),
+    restaurantName: z.string().min(1, "Restaurant Name is required"),
     city: z.string().min(1, "City is required"),
     country: z.string().min(1, "Country is required"),
     deliveryPrice: z.coerce
@@ -87,7 +87,7 @@ const RestaurantForm = ({ restraurant, onSave, isLoading }: Props) => {
   const onSubmit = (formDataJson: RestaurantFormData) => {
     console.log("Form submitted");
     const formData = new FormData();
-    formData.append("restaurantName", formDataJson.restraurantName);
+    formData.append("restaurantName", formDataJson.restaurantName);
     formData.append("city", formDataJson.city);
     formData.append("country", formDataJson.country);
     formData.append("deliveryPrice", formDataJson.deliveryPrice.toString());

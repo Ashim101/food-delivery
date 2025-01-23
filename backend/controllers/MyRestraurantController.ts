@@ -54,6 +54,7 @@ const createMyRestraurant = async (req: Request, res: Response) => {
 
 
 const updateMyRestraurant = async (req: Request, res: Response) => {
+  console.log(req.body)
 
     try {
 
@@ -77,7 +78,7 @@ const updateMyRestraurant = async (req: Request, res: Response) => {
         }
 
 
-        restraurant.restaurantName = req.body.restraurantName;
+        restraurant.restaurantName = req.body.restaurantName;
         restraurant.city = req.body.city;
         restraurant.country = req.body.country;
         restraurant.cuisines = req.body.cuisines;
