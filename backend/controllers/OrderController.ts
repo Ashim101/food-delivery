@@ -143,7 +143,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
         orderId,
         restaurantId
       },
-      success_url: `https://food-delivery-frontend-cp68.onrender.com/order-status?success=true`,
+      success_url: `${FRONTEND_URL}/order-status?success=true`,
       cancel_url: `${FRONTEND_URL}/detail/${restaurantId}?cancelled=true`,
     });
   
