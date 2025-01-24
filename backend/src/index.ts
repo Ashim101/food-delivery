@@ -8,7 +8,7 @@ import { v2 as cloudinary } from 'cloudinary'
 import myRestraurantRoutes from "../routes/myRestraurantRoute";
 import restraurantRoutes from "../routes/RestraurantRoute";
 import orderRoutes from "../routes/orderRoutes";
-mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => { 
+mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string).then(() => { console.log("database connected") })
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
@@ -39,5 +39,5 @@ app.use("/api/order", orderRoutes);
 
 
 app.listen(7000, () => {
-    
+    console.log("listening on the port 7000")
 });

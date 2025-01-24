@@ -6,12 +6,10 @@ import Order from "../models/orderModel";
 
 
 const getMyRestraurant = async (req: Request, res: Response) => {
-  console.log("inside my restaurant")
     try {
         const restraurant = await Restraurant.findOne({ user: req.userId })
 
         if (!restraurant) {
-          console.log("restaurant not found with this username")
             return res.status(404).json({ message: "Restraurant Not Found" })
         }
 
@@ -47,14 +45,12 @@ const createMyRestraurant = async (req: Request, res: Response) => {
 
 
     } catch (error) {
-      console.log(error)
         res.status(500).json({ message: "Something went wrong" })
     }
 }
 
 
 const updateMyRestraurant = async (req: Request, res: Response) => {
-  console.log(req.body)
 
     try {
 
@@ -89,7 +85,6 @@ const updateMyRestraurant = async (req: Request, res: Response) => {
 
 
     } catch (error) {
-        console.log(error)
         res.status(500).json({ message: "Something went wrong" })
     }
 }
@@ -107,7 +102,6 @@ const getMyRestaurantOrders = async (req: Request, res: Response) => {
   
       res.json(orders);
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "something went wrong" });
     }
   };
@@ -133,7 +127,6 @@ const getMyRestaurantOrders = async (req: Request, res: Response) => {
   
       res.status(200).json(order);
     } catch (error) {
-      console.log(error);
       res.status(500).json({ message: "unable to update order status" });
     }
   };

@@ -18,7 +18,6 @@ const AuthCallbackPage = () => {
         }
         navigate('/')
     }, [createUser, user])
-    console.log("insideauthcallback")
 
     return (
         <div>Loading...</div>
