@@ -160,7 +160,6 @@ const createCheckoutSession = async (req: Request, res: Response) => {
         req.body,
         sig as string,
         STRIPE_ENDPOINT_SECRET
-      
       );
     } catch (error: any) {
       return res.status(400).send(`Webhook error: ${error.message}`);
