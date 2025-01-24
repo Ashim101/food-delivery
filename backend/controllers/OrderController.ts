@@ -5,7 +5,6 @@ import Order from "../models/orderModel";
 
 const STRIPE = new Stripe(process.env.STRIPE_API_KEY as string);
 const FRONTEND_URL = process.env.FRONTEND_URL as string;
-console.log(FRONTEND_URL);
 
 
 const STRIPE_ENDPOINT_SECRET = process.env.STRIPE_WEBHOOK_SECRET as string;
@@ -161,6 +160,7 @@ const createCheckoutSession = async (req: Request, res: Response) => {
         req.body,
         sig as string,
         STRIPE_ENDPOINT_SECRET
+      
       );
     } catch (error: any) {
       return res.status(400).send(`Webhook error: ${error.message}`);
