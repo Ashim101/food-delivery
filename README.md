@@ -33,7 +33,9 @@ Managing restaurant page:
 INSTALLATION :
 
 SIMPLY CLONE THIS PROJECT
+
 CD PATH/TO/DIRECTORY
+
 CD frontend
 
 NPM I
